@@ -14,7 +14,6 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     this.socket = this.io.getSocket();
-    this.socket.emit('hello', '2fois');
 
   }
 

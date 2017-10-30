@@ -1,3 +1,35 @@
-<p>
-  loggin works!
-</p>
+<div class="container relative">
+  <form #login_form (submit)="submit(login_form)" class="box down auto half">
+    <label class="placeholder">
+      <input name="pseudo"
+             (keyup)="checklength(login_form)"
+             [ngClass]="{'confirm' : isCorrectLength}"
+             type="text"
+             placeholder="Pseudo">
+      <span>Pseudo</span>
+    </label>
+    <label class="placeholder">
+      <input (keyup)="confirmPassword(login_form)"
+             [ngClass]="{'confirm' : isConfirm}"
+             name="password"
+             type="password"
+             placeholder="Mot de passe">
+      <span>Mot de passe</span>
+    </label>
+    <label class="placeholder">
+      <input (keyup)="confirmPassword(login_form)"
+             [ngClass]="{'confirm' : isConfirm}"
+             name="pass_confirm"
+             type="password"
+             placeholder="Confirmation MDP"
+             *ngIf="isRegister">
+      <span>Confirmation MDP</span>
+    </label>
+    <label class="placeholder">
+      <input name="email" type="email" placeholder="Email" *ngIf="isRegister">
+      <span>Email</span>
+    </label>
+    <input class="btn" type="submit">
+  </form>
+
+</div>

@@ -1,4 +1,5 @@
 @import "assets/styles/declaration";
+
 @font-face {
   font-family: 'Source Code Pro';
   font-style: normal;
@@ -6,6 +7,7 @@
   src: local('Source Code Pro'), local('SourceCodePro-Regular'), url(./assets/font/sourcecodepro.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
 }
+
 /* latin */
 @font-face {
   font-family: 'Open Sans';
@@ -14,63 +16,188 @@
   src: local('Open Sans Regular'), local('OpenSans-Regular'), url(./assets/font/opensans.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
 }
-html{
-  font-size:1rem;
-  font-family: 'Open Sans','Source Code Pro', sans-serif;
+
+html {
+  font-size: 1rem;
+  font-family: 'Open Sans', 'Source Code Pro', sans-serif;
 }
-@media screen and (max-width: 1440px){
+
+@media screen and (max-width: 1440px) {
   html {
     font-size: 0.95rem;
   }
 }
-@media screen and (max-width: 1280px){
+
+@media screen and (max-width: 1280px) {
   html {
     font-size: 0.90rem;
   }
 }
-@media screen and (max-width: 1110px){
+
+@media screen and (max-width: 1110px) {
   html {
     font-size: 0.85rem;
   }
 }
-@media screen and (max-width: 786px){
+
+@media screen and (max-width: 786px) {
   html {
     font-size: 0.80rem;
   }
 }
-@media screen and (max-width: 480px){
+
+@media screen and (max-width: 480px) {
   html {
     font-size: 0.75rem;
   }
 }
-html,body{
+
+html, body {
   margin: 0;
-  background-color: $dark;
 }
-.container{
+
+.container {
   max-width: 1300px;
   margin-left: auto;
   margin-right: auto;
   padding: 10px;
 }
-h1{
+
+h1 {
   font-size: 2.5rem;
 }
-h2{
+
+h2 {
   font-size: 2.2rem;
 }
-h3{
+
+h3 {
   font-size: 1.9rem;
 }
-h4{
+
+h4 {
   font-size: 1.7rem;
 }
-h5{
+
+h5 {
   font-size: 1.5rem;
 }
-h6{
+
+h6 {
   font-size: 1.1rem;
 }
-p{
+
+p {
   font-size: 1.2rem;
+}
+*:focus {
+  transition: all 0.3s;
+  box-shadow: 0 0 10px 3px $primary;
+}
+*.confirm:focus {
+  box-shadow: 0 0 10px 3px $secondary;
+}
+*:focus {
+  outline: none;
+}
+input {
+  width: 100%;
+  margin: 5px;
+  padding: 10px .75rem;
+  font-size: 1rem;
+  background: transparent;
+  border: 1px solid $neutral;
+  box-sizing: border-box;
+  display: inline-block;
+}
+*::placeholder{
+  font-size: 1rem;
+}
+a,a:hover,a:focus{
+  text-decoration: none;
+}
+.placeholder{
+  position: relative;
+  display: inline-block;
+  input{
+    padding: 18px .75rem 2px .75rem;
+  }
+  span{
+    position: absolute;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: all 0.3s;
+    top:2px;
+    left:40px;
+  }
+  input:focus::placeholder{
+    opacity: 0;
+  }
+  input:focus + span{
+    opacity: 1;
+    left:10px;
+
+  }
+}
+.btn {
+  display: inline-block;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  letter-spacing: 0.15rem;
+  user-select: none;
+  color: $dark;
+  border: 1px solid $dark;
+  padding: .7rem 1.8rem;
+  font-size: 1.10rem;
+  border-radius: 0;
+  cursor: pointer;
+  background: transparent;
+}
+.box{
+  display: flex;
+}
+.box.center{
+  justify-content: center;
+}
+.box.y-center{
+  align-items: center;
+}
+.box.between{
+  justify-content: space-between;
+}
+.box.around{
+  justify-content: space-around;
+}
+.box.wrap{
+  flex-wrap: wrap;
+}
+.box.wrap-reverse{
+  flex-wrap: wrap-reverse;
+}
+.box.down{
+  flex-direction: column;
+}
+.box.up{
+  flex-direction: column-reverse;
+}
+.box.inverse{
+  flex-direction:row-reverse;
+}
+.box > .spread {
+  flex-grow: 1;
+}
+.box.auto > * {
+  flex-grow: 1;
+}
+.box > .right {
+  margin-left: auto;
+}
+.relative{
+  position: relative;
+}
+.half{
+  width: 50%;
 }
