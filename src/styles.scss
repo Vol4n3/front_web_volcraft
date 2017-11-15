@@ -55,32 +55,36 @@ html {
 html, body {
   margin: 0;
 }
-
+body{
+  background: $light url(http://www.mulierchile.com/cool-gamer-desktop-backgrounds/cool-gamer-desktop-backgrounds-003.jpg) center no-repeat;
+}
 .container {
   max-width: 1300px;
   margin-left: auto;
   margin-right: auto;
   padding: 10px;
 }
-
+h1,h2,h3,h4,h5,h6{
+  margin: 0 0 10px 0;
+}
 h1 {
-  font-size: 2.5rem;
+  font-size: 2.0rem;
 }
 
 h2 {
-  font-size: 2.2rem;
+  font-size: 1.8rem;
 }
 
 h3 {
-  font-size: 1.9rem;
-}
-
-h4 {
   font-size: 1.7rem;
 }
 
-h5 {
+h4 {
   font-size: 1.5rem;
+}
+
+h5 {
+  font-size: 1.3rem;
 }
 
 h6 {
@@ -89,20 +93,25 @@ h6 {
 
 p {
   font-size: 1.2rem;
+  margin: 0 0 5px 0;
 }
-*:focus {
-  transition: all 0.3s;
-  box-shadow: 0 0 10px 3px $primary;
-}
-*.confirm:focus {
-  box-shadow: 0 0 10px 3px $secondary;
-}
-*:focus {
-  outline: none;
+*{
+  &:focus {
+    transition: all 0.3s;
+    box-shadow: 0 0 10px 3px $primary;
+  }
+  &.confirm:focus {
+    box-shadow: 0 0 10px 3px $secondary;
+  }
+  &:focus {
+    outline: none;
+  }
+  &::placeholder{
+    font-size: 1rem;
+  }
 }
 input {
   width: 100%;
-  margin: 5px;
   padding: 10px .75rem;
   font-size: 1rem;
   background: transparent;
@@ -110,9 +119,7 @@ input {
   box-sizing: border-box;
   display: inline-block;
 }
-*::placeholder{
-  font-size: 1rem;
-}
+
 a,a:hover,a:focus{
   text-decoration: none;
 }
@@ -139,65 +146,129 @@ a,a:hover,a:focus{
 
   }
 }
+.bg-light{
+  background-color: $light;
+}
+.bg-dark{
+  background-color: $dark;
+}
+.bg-light-translucent{
+  background-color: rgba(255,252,252,0.8);
+}
+.bg-dark-translucent{
+  background-color: rgba(53,51,53,0.8);
+}
 .btn {
   display: inline-block;
   font-weight: 700;
-  line-height: 1.25;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
-  letter-spacing: 0.15rem;
+  letter-spacing: 0.12rem;
   user-select: none;
-  color: $dark;
-  border: 1px solid $dark;
-  padding: .7rem 1.8rem;
-  font-size: 1.10rem;
+  color: $neutral;
+  border: 1px solid $neutral;
+  padding: .5rem 0.5rem;
+  font-size: 1.05rem;
   border-radius: 0;
   cursor: pointer;
   background: transparent;
+  transition: 0.4s all ease-in-out;
+  &.btn-primary{
+    color: $primary;
+    border: 1px solid $primary;
+  }
+  &.btn-alert{
+    color: $alert;
+    border: 1px solid $alert;
+  }
+  &:hover{
+    color: $dark;
+    border: 1px solid $dark;
+  }
 }
+
 .box{
   display: flex;
+  &.center{
+    justify-content: center;
+  }
+  &.y-center{
+    align-items: center;
+  }
+  &.between{
+    justify-content: space-between;
+  }
+  &.around{
+    justify-content: space-around;
+  }
+  &.wrap{
+    flex-wrap: wrap;
+  }
+  &.wrap-reverse{
+    flex-wrap: wrap-reverse;
+  }
+  &.down{
+    flex-direction: column;
+  }
+  &.up{
+    flex-direction: column-reverse;
+  }
+  &.inverse{
+    flex-direction:row-reverse;
+  }
+  &.auto > * {
+    flex-grow: 1;
+  }
+  > .spread {
+    flex-grow: 1;
+  }
+  &.down.spaced > *:not(:first-child){
+    margin-top: 10px;
+  }
+  &.spaced:not(.down):not(.up) > *:not(:first-child){
+    margin-left: 10px;
+  }
 }
-.box.center{
-  justify-content: center;
-}
-.box.y-center{
-  align-items: center;
-}
-.box.between{
-  justify-content: space-between;
-}
-.box.around{
-  justify-content: space-around;
-}
-.box.wrap{
-  flex-wrap: wrap;
-}
-.box.wrap-reverse{
-  flex-wrap: wrap-reverse;
-}
-.box.down{
-  flex-direction: column;
-}
-.box.up{
-  flex-direction: column-reverse;
-}
-.box.inverse{
-  flex-direction:row-reverse;
-}
-.box > .spread {
-  flex-grow: 1;
-}
-.box.auto > * {
-  flex-grow: 1;
-}
-.box > .right {
-  margin-left: auto;
+.margin-y{
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 .relative{
   position: relative;
 }
+.absolute{
+  position: absolute;
+}
+.two-thirds{
+  width: calc(100% * 2 / 3);
+}
 .half{
   width: 50%;
+}
+.third{
+  width: calc(100% / 3);
+}
+.quarter{
+  width: 25%;
+}
+.right:not(.absolute) {
+  margin-left: auto;
+}
+.right.absolute {
+  right:0;
+}
+@media screen and (min-width: 786px){
+  .half-desktop{
+    width: 50%;
+  }
+  .two-thirds-desktop{
+    width: calc(100% * 2 / 3);
+  }
+  .third-desktop{
+    width: calc(100% / 3);
+  }
+  .quarter-desktop{
+    width: 25%;
+  }
 }

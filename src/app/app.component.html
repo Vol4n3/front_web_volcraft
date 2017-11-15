@@ -1,11 +1,12 @@
 <main>
-  <header class="container">
+  <header class="container box relative">
     <h1>{{title}}</h1>
+    <div class="quarter-desktop right absolute">
+      <app-login></app-login>
+    </div>
   </header>
   <nav></nav>
-  <app-loggin></app-loggin>
-  <article>
-    <app-chat></app-chat>
-  </article>
+  <app-chat></app-chat>
+  <article class="container"></article>
   <footer></footer>
 </main>
