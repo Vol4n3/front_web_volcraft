@@ -4,14 +4,14 @@
   </header>
   <div>
     <ul class="messages">
-      <li *ngFor="let msg of messages">
+      <li *ngFor="let msg of messages; let i = index; trackBy: trackByMessage">
         <figure class="box">
           <div class="img-user box y-center">
             <img src="{{msg.img}}">
           </div>
           <figcaption>
             <h4 class="pseudo">{{msg.pseudo}}</h4>
-            <div>{{msg.txt}}</div>
+            <div [innerHTML]="msg.txt | bbToHtml"></div>
             <time [attr.datetime]="msg.datetime">{{msg.date}}</time>
           </figcaption>
         </figure>
