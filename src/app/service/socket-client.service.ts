@@ -9,7 +9,7 @@ export class SocketClientService {
   }
 
   init() {
-    this.socket = io('http://localhost:8080');
+    this.socket = io('http://localhost:8088');
   }
 
   getSocket() {

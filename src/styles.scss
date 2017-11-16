@@ -56,7 +56,7 @@ html, body {
   margin: 0;
 }
 body{
-  background: $light url(http://www.mulierchile.com/cool-gamer-desktop-backgrounds/cool-gamer-desktop-backgrounds-003.jpg) center no-repeat;
+  /*background: $light url(http://www.mulierchile.com/cool-gamer-desktop-backgrounds/cool-gamer-desktop-backgrounds-003.jpg) center no-repeat;*/
 }
 .container {
   max-width: 1300px;
@@ -64,7 +64,10 @@ body{
   margin-right: auto;
   padding: 10px;
 }
-h1,h2,h3,h4,h5,h6{
+h1{
+  margin: 0;
+}
+h2,h3,h4,h5,h6{
   margin: 0 0 10px 0;
 }
 h1 {
@@ -136,6 +139,7 @@ a,a:hover,a:focus{
     transition: all 0.3s;
     top:2px;
     left:40px;
+    color: $neutral;
   }
   input:focus::placeholder{
     opacity: 0;
@@ -183,8 +187,8 @@ a,a:hover,a:focus{
     border: 1px solid $alert;
   }
   &:hover{
-    color: $dark;
-    border: 1px solid $dark;
+    color: $light;
+    border: 1px solid $light;
   }
 }
 
@@ -257,6 +261,16 @@ a,a:hover,a:focus{
 }
 .right.absolute {
   right:0;
+}
+@media screen and (max-width: 769px){
+  .box{
+    &.mobile{
+      justify-content: center;
+      > .right{
+        margin-left: 0;
+      }
+    }
+  }
 }
 @media screen and (min-width: 786px){
   .half-desktop{

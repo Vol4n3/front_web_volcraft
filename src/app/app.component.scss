@@ -1,5 +1,15 @@
 @import "../assets/styles/declaration";
-
+main{
+  padding-top: 100px;
+}
 h1{
-  color: $alert;
+  color: $neutral;
+  margin-right: 10px;
+}
+header{
+  background-color: $transparent-dark;
+  position: absolute;
+  top:0 ;
+  left: 0;
+  width:100%;
 }

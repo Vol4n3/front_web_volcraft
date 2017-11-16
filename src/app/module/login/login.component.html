@@ -1,16 +1,18 @@
 <section>
-  <div class="box spaced margin-y" [ngClass]="{'auto':!logged}">
+  <div class="box spaced" [ngClass]="{'auto':!logged}">
     <button *ngIf="!logged"  class="btn" (click)="toggleFormLogin()" type="button">Connection</button>
     <button *ngIf="!logged" class="btn btn-primary" (click)="toggleFormRegister()" type="button">Enregistre toi!</button>
-    <button *ngIf="logged" [ngClass]="{'third':logged}" class="btn btn-alert right" (click)="logout()">Bye !</button>
+    <button *ngIf="logged" class="btn right" (click)="logout()">Bye !</button>
   </div>
-  <form *ngIf="!logged && askLog" #login_form (submit)="submit(login_form)" class="box down auto spaced" [@slide]>
+  <form *ngIf="!logged && askLog" #login_form (submit)="submit(login_form)" class="box margin-y down auto spaced" [@slide]>
     <label class="placeholder">
       <input name="pseudo"
-             (keyup)="checklength(login_form)"
+             (keyup)="checkLength(login_form)"
              [ngClass]="{'confirm' : isCorrectLength}"
              type="text"
-             placeholder="Pseudo">
+             placeholder="Pseudo"
+             required
+             minlength="3">
       <span>Pseudo</span>
     </label>
     <label class="placeholder">
@@ -18,7 +20,8 @@
              [ngClass]="{'confirm' : isConfirm}"
              name="password"
              type="password"
-             placeholder="Mot de passe">
+             placeholder="Mot de passe"
+            required>
       <span>Mot de passe</span>
     </label>
 
@@ -40,5 +43,4 @@
     </label>
     <input class="btn" type="submit" [@error]="toggleErrorAnimation">
   </form>
-  <p>test</p>
 </section>

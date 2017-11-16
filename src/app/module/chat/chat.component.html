@@ -4,23 +4,15 @@
   </header>
   <div>
     <ul class="messages">
-      <li>
+      <li *ngFor="let msg of messages">
         <figure class="box">
-          <img src="https://www.shareicon.net/data/2015/11/03/150533_game_256x256.png" height="96" width="96">
+          <div class="img-user box y-center">
+            <img src="{{msg.img}}">
+          </div>
           <figcaption>
-            <h4 class="pseudo">Vol4n3</h4>
-            <p>bonjour<br>qslkdj</p>
-            <time>2h00</time>
-          </figcaption>
-        </figure>
-      </li>
-      <li>
-        <figure class="box">
-          <img src="https://www.shareicon.net/data/2015/11/03/150533_game_256x256.png" height="96" width="96">
-          <figcaption>
-            <h4 class="pseudo">Vol4n3</h4>
-            <p>bonjour</p>
-            <time>2h00</time>
+            <h4 class="pseudo">{{msg.pseudo}}</h4>
+            <div>{{msg.txt}}</div>
+            <time [attr.datetime]="msg.datetime">{{msg.date}}</time>
           </figcaption>
         </figure>
       </li>

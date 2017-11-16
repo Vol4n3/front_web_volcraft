@@ -1,12 +1,15 @@
 <main>
-  <header class="container box relative">
-    <h1>{{title}}</h1>
-    <div class="quarter-desktop right absolute">
-      <app-login></app-login>
-    </div>
-  </header>
+
   <nav></nav>
   <app-chat></app-chat>
   <article class="container"></article>
+  <header>
+    <div class="box mobile wrap-reverse container">
+      <h1>{{title}}</h1>
+      <div class="right">
+        <app-login></app-login>
+      </div>
+    </div>
+  </header>
   <footer></footer>
 </main>

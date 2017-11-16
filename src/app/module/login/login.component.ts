@@ -51,6 +51,8 @@ export class LoginComponent implements OnInit {
     if (this.isRegister) {
       if (this.isConfirm) {
         this.register(form);
+      }else {
+        this.toggleErrorAnimation = !this.toggleErrorAnimation;
       }
     } else {
       this.login(form);
@@ -80,7 +82,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  public checklength(form: HTMLFormElement) {
+  public checkLength(form: HTMLFormElement) {
     this.isCorrectLength = form['pseudo'].value.length > 3;
   }
 
@@ -112,7 +114,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.socket = this.io.getSocket();
-    this.socket.on('system', (data) => {
+    this.socket.on('sys_login', (data) => {
         this.toggleErrorAnimation = (data.type === 'error') ? !this.toggleErrorAnimation : this.toggleErrorAnimation;
         switch (data.msg) {
           case 'login_fail':
@@ -120,6 +122,9 @@ export class LoginComponent implements OnInit {
           case 'login_success':
             localStorage.setItem('token', data.token);
             this.logged = true;
+            break;
+          case 'register_success':
+            this.toggleFormLogin();
             break;
           case 'logout_success':
             this.logged = false;

@@ -8,7 +8,7 @@ import {SocketClientService} from './service/socket-client.service';
   providers: [SocketClientService]
 })
 export class AppComponent {
-  title = 'La communauté';
+  title = 'CoMuTy';
 
   constructor(private io: SocketClientService) {
     this.io.init();
