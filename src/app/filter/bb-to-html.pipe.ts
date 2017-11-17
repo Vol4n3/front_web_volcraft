@@ -2,12 +2,13 @@ interface IRegexRules {
   regex: RegExp;
   regPlace: any;
 }
+
 import {Pipe, PipeTransform} from '@angular/core';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 
 @Pipe({
   name: 'bbToHtml',
-  pure: false,
+  pure: true,
 })
 
 
@@ -22,13 +23,18 @@ export class BbToHtmlPipe implements PipeTransform {
   private parser(text: string): string {
     const tags = this.getTags();
     for (let i = 0; i < tags.length; i++) {
-      text = text.replace(tags[i].regex, tags[i].regPlace);
+      let exec;
+      while ((exec = tags[i].regex.exec(text)) !== null) {
+        text = text.replace(exec[0], tags[i].regPlace(exec));
+      }
     }
     return text;
   }
 
   private getTags(): IRegexRules[] {
-
+    const removeUndefined = (uri): string => {
+      return (uri) ? uri : '';
+    };
     return [
       {
         regex: /</ig,
@@ -43,64 +49,48 @@ export class BbToHtmlPipe implements PipeTransform {
         }
       },
       {
-        regex: /\[\/?br\/?\]/ig,
+        regex: /"/ig,
+        regPlace: (str) => {
+          return '&quote;';
+        }
+      },
+      {
+        regex: /'/ig,
+        regPlace: (str) => {
+          return '&apos;';
+        }
+      },
+      {
+        regex: /\[\/?br\/?]/ig,
         regPlace: (str) => {
           return '<br>';
         }
       },
       {
-        regex: /\[youtube\=([-_a-z0-9]*)\]/ig,
+        regex: /\[link=((https?:)(\/\/\/?)([\w]*(?::[\w]*)?@)?([\d\w\.-]+)(?::(\d+))?)?([\/\\\w\.()-]*)?(?:([?][^#]*)?(#.*)?)*](.*?)\[\/link]/ig,
         regPlace: (str) => {
-          return '<div style="position: relative;">'
-            + '<img style="display: block;width: 100%;height: auto;" src="data:image/gif;base64,R0lGODlhEAAJAIAAAP///wAAACH5BAEAAAAALAAAAAAQAAkAAAIKhI+py+0Po5yUFQA7"/>'
-            + '<iframe style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;" class="youtube" type="text/html" width="640" height="360" src="https://www.youtube.com/embed/'
-            + str[1] + '?rel=0&showinfo=0" frameborder="0" allowfullscreen></iframe>'
-            + '</div>';
+          return '<a href="'
+            + removeUndefined(str[1])
+            + removeUndefined(str[7])
+            + removeUndefined(str[8])
+            + removeUndefined(str[9])
+            + '">'
+            + str[10] + '</a>';
         }
       },
       {
-        regex: /\[soundcloud\=(https?\:\/\/[\-_a-z0-9.\/]*)\]/ig,
+        regex: /\[img=((https?:)(\/\/\/?)([\w]*(?::[\w]*)?@)?([\d\w\.-]+)(?::(\d+))?)?([\/\\\w\.()-]*)?(?:([?][^#]*)?(#.*)?)*]/ig,
         regPlace: (str) => {
-          return '<div style="position: relative;" >'
-            + '<img style="display: block;width: 100%;height: auto;" src="data:image/gif;base64,R0lGODlhEAAJAIAAAP///wAAACH5BAEAAAAALAAAAAAQAAkAAAIKhI+py+0Po5yUFQA7"/>'
-            + '<iframe  style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;" class="youtube" type="text/html" src="https://w.soundcloud.com/player/?url='
-            + encodeURI(str[1]) + '?&color=black_white&visual=true&show_comments=true&hide_related=true&show_reposts=false" frameborder="0" scrolling="no"></iframe>'
-            + '</div>';
+          return '<img style="display: block; width: 100%;height: auto;" src="'
+            + removeUndefined(str[1])
+            + removeUndefined(str[7])
+            + removeUndefined(str[8])
+            + removeUndefined(str[9])
+            + '">';
         }
       },
       {
-        regex: /\[vimeo\=([-_a-z0-9]*)\]/ig,
-        regPlace: (str) => {
-          return '<div style="position: relative;">'
-            + '<img style="display: block;width: 100%;height: auto;"'
-            + ' src="data:image/gif;base64,R0lGODlhEAAJAIAAAP///wAAACH5BAEAAAAALAAAAAAQAAkAAAIKhI+py+0Po5yUFQA7"/>'
-            + '<iframe style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;" class="youtube" type="text/html"'
-            + ' width="640" height="360" src="https://player.vimeo.com/video/'
-            + str[1] + '?badge=0" frameborder="0" allowfullscreen></iframe>'
-            + '</div>';
-        }
-      },
-      {
-        regex: /\[dailymotion\=([-_a-z0-9]*)\]/ig,
-        regPlace: (str) => {
-          return '<div style="position: relative;">'
-            + '<img style="display: block;width: 100%;height: auto;"'
-            + 'src="data:image/gif;base64,R0lGODlhEAAJAIAAAP///wAAACH5BAEAAAAALAAAAAAQAAkAAAIKhI+py+0Po5yUFQA7"/>'
-            + '<iframe style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;" class="dailymotion" type="text/html"'
-            + ' width="640" height="360" '
-            + 'src="http://www.dailymotion.com/embed/video/' + str[1]
-            + '?endscreen-enable=false&ui-logo=false" frameborder="0" allowfullscreen></iframe>'
-            + '</div>';
-        }
-      },
-      {
-        regex: /\[img=((http[s]?|ftp):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\]\s]+)[\a-z]*?(#[\w\-]+)?\]/ig,
-        regPlace: (str) => {
-          return '<img style="display: block; width: 100%;height: auto;" src="' + str[2] + '://' + str[3].str[4].str[6] + '">';
-        }
-      },
-      {
-        regex: /\[wrap=([0-9]{1,3})\](.*?)\[\/wrap\]/ig,
+        regex: /\[wrap=([0-9]{1,3})](.*?)\[\/wrap]/ig,
         regPlace: (str) => {
           let num = parseInt(str[1], 10);
           num = num > 100 ? 100 : num;
@@ -108,67 +98,67 @@ export class BbToHtmlPipe implements PipeTransform {
         }
       },
       {
-        regex: /\[color=([a-f0-9]{6})\](.*?)\[\/color\]/ig,
+        regex: /\[color=#?([a-f0-9]{6}|[a-f0-9]{3})](.*?)\[\/color]/ig,
         regPlace: (str) => {
-          return '<font color="' + str[1] + '">' + str[2] + '</font>';
+          return '<span style="color:#' + str[1] + ';">' + str[2] + '</span>';
         }
       },
       {
-        regex: /\[font=([a-z0-9_\.\-\s])*\](.*?)\[\/font\]/ig,
+        regex: /\[font=([a-z0-9_.\-\s])*](.*?)\[\/font]/ig,
         regPlace: (str) => {
-          return '<font face="' + str[1] + '">' + str[2] + '</font>';
+          return '<span style="font-family:' + str[1] + ';">' + str[2] + '</span>';
         }
       },
       {
-        regex: /\[left\](.*?)\[\/left\]/ig,
+        regex: /\[left](.*?)\[\/left]/ig,
         regPlace: (str) => {
           return '<div style="text-align:left;">' + str[1] + '</div>';
         }
       },
       {
-        regex: /\[right\](.*?)\[\/right\]/ig,
+        regex: /\[right](.*?)\[\/right]/ig,
         regPlace: (str) => {
           return '<div style="text-align:right;">' + str[1] + '</div>';
         }
       },
       {
-        regex: /\[center\](.*?)\[\/center\]/ig,
+        regex: /\[center](.*?)\[\/center]/ig,
         regPlace: (str) => {
           return '<div style="text-align:center;">' + str[1] + '</div>';
         }
       },
       {
-        regex: /\[h1\](.*?)\[\/h1\]/ig,
+        regex: /\[h1](.*?)\[\/h1]/ig,
         regPlace: (str) => {
           return '<h1>' + str[1] + '</h1>';
         }
       },
       {
-        regex: /\[h2\](.*?)\[\/h2\]/ig,
+        regex: /\[h2](.*?)\[\/h2]/ig,
         regPlace: (str) => {
           return '<h2>' + str[1] + '</h2>';
         }
       },
       {
-        regex: /\[h3\](.*?)\[\/h3\]/ig,
+        regex: /\[h3](.*?)\[\/h3]/ig,
         regPlace: (str) => {
           return '<h3>' + str[1] + '</h3>';
         }
       },
       {
-        regex: /\[h4\](.*?)\[\/h4\]/ig,
+        regex: /\[h4](.*?)\[\/h4]/ig,
         regPlace: (str) => {
           return '<h4>' + str[1] + '</h4>';
         }
       },
       {
-        regex: /\[h5\](.*?)\[\/h5\]/ig,
+        regex: /\[h5](.*?)\[\/h5]/ig,
         regPlace: (str) => {
           return '<h5>' + str[1] + '</h5>';
         }
       },
       {
-        regex: /\[h6\](.*?)\[\/h6\]/ig,
+        regex: /\[h6](.*?)\[\/h6]/ig,
         regPlace: (str) => {
           return '<h6>' + str[1] + '</h6>';
         }

@@ -21,4 +21,8 @@ import {BbToHtmlPipe} from './filter/bb-to-html.pipe';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  ngOnInit() {
+
+  }
+}

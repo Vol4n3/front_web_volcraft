@@ -1,10 +1,6 @@
-<article class="container">
-  <header>
-    <h2>Chat</h2>
-  </header>
-  <div>
-    <ul class="messages">
-      <li *ngFor="let msg of messages; let i = index; trackBy: trackByMessage">
+<article>
+    <ul class="messages" #messagesList>
+      <li *ngFor="let msg of messages; index as i; trackBy: trackByMessage">
         <figure class="box">
           <div class="img-user box y-center">
             <img src="{{msg.img}}">
@@ -18,12 +14,9 @@
       </li>
     </ul>
     <div class="editor">
+      <button class="send">&gt;</button>
       <div class="text" contenteditable="true">test</div>
       <button class="options">+</button>
     </div>
-  </div>
-  <footer>
-
-  </footer>
 </article>
 
