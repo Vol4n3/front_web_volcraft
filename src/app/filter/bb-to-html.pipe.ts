@@ -49,7 +49,7 @@ export class BbToHtmlPipe implements PipeTransform {
         }
       },
       {
-        regex: /"/ig,
+        regex: /"gi/ig,
         regPlace: (str) => {
           return '&quote;';
         }
@@ -69,7 +69,7 @@ export class BbToHtmlPipe implements PipeTransform {
       {
         regex: /\[link=((https?:)(\/\/\/?)([\w]*(?::[\w]*)?@)?([\d\w\.-]+)(?::(\d+))?)?([\/\\\w\.()-]*)?(?:([?][^#]*)?(#.*)?)*](.*?)\[\/link]/ig,
         regPlace: (str) => {
-          return '<a href="'
+          return '<a rel="nofollow" href="'
             + removeUndefined(str[1])
             + removeUndefined(str[7])
             + removeUndefined(str[8])

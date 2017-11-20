@@ -1,6 +1,5 @@
-import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {SocketClientService} from '../../service/socket-client.service';
-import {animate, keyframes, state, style, transition, trigger} from '@angular/animations';
 
 declare let $: any;
 
@@ -15,7 +14,7 @@ export class ChatComponent implements OnInit {
   public messages = [
     {
       pseudo: 'Vol4n3',
-      txt: 'test"qsd"',
+      txt: '[link=http://qsdqsd.com/[link=http://test.com]te[/link]]te[/link]',
       img: 'http://www.aiphone.fr/images/mobile/icone_compte.png',
       date: '2017',
       datetime: '2017-12-25'
