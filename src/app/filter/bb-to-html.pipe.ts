@@ -81,7 +81,7 @@ export class BbToHtmlPipe implements PipeTransform {
       {
         regex: /\[img=((https?:)(\/\/\/?)([\w]*(?::[\w]*)?@)?([\d\w\.-]+)(?::(\d+))?)?([\/\\\w\.()-]*)?(?:([?][^#]*)?(#.*)?)*]/ig,
         regPlace: (str) => {
-          return '<img style="display: block; width: 100%;height: auto;" src="'
+          return '<img alt="image" style="display: block; width: 100%;height: auto;" src="'
             + removeUndefined(str[1])
             + removeUndefined(str[7])
             + removeUndefined(str[8])

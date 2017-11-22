@@ -10,22 +10,16 @@ declare let $: any;
 })
 export class ChatComponent implements OnInit {
   @ViewChild('messagesList') messagesList: ElementRef;
+  @ViewChild('editor') editor: ElementRef;
 
   public messages = [
     {
-      pseudo: 'Vol4n3',
-      txt: '[link=http://qsdqsd.com/[link=http://test.com]te[/link]]te[/link]',
+      pseudo: 'system',
+      text: '[h3]No message[/h3]',
       img: 'http://www.aiphone.fr/images/mobile/icone_compte.png',
       date: '2017',
       datetime: '2017-12-25'
     },
-    {
-      pseudo: 'OtherPeople',
-      txt: 'test',
-      img: 'https://www.ecosources.info/images/energie_batiment/eolienne_axe_vertical_Darri.jpg',
-      date: '2017',
-      datetime: '2017-12-25'
-    }
   ];
   private socket;
 
@@ -33,35 +27,39 @@ export class ChatComponent implements OnInit {
 
   }
 
-  private scrollMessagesList() {
-    const list = this.messagesList.nativeElement;
-    if (list.scrollTop >= list.scrollHeight - list.clientHeight * 2) {
-      $(list).animate({
-        scrollTop: list.scrollHeight - list.clientHeight
-      }, 200);
+  public submitChat(el?: HTMLElement, event?: KeyboardEvent) {
+    if (event && event.keyCode === 13) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.socket.emit('chat_message', {
+        text: el.textContent,
+        channel: 'default'
+      });
+      el.textContent = '';
     }
   }
 
-  public trackByMessage(index: number, message): number {
-    return message.date;
+  private scrollMessagesList() {
+    setTimeout(() => {
+      const list: any = this.messagesList.nativeElement;
+      if (list.scrollTop >= list.scrollHeight - list.clientHeight * 2) {
+        $(list).animate({
+          scrollTop: list.scrollHeight - list.clientHeight
+        }, 200);
+      }
+    }, 100);
   }
 
   ngOnInit() {
     this.socket = this.io.getSocket();
-    this.scrollMessagesList();
-    setInterval(() => {
-      this.messages.push({
-        pseudo: 'Vol4n3',
-        txt: '<script>console.log("test");</script> [h1]hqus[/h1]S',
-        img: 'http://www.aiphone.fr/images/mobile/icone_compte.png',
-        date: '2017',
-        datetime: '2017-12-25'
-      });
-      this.messages = this.messages.slice();
-      setTimeout(() => {
-        this.scrollMessagesList();
-      }, 100);
-    }, 10000);
+
+    this.socket.on('chat_history', (data) => {
+      this.messages = data;
+    });
+    this.socket.on('chanel_message', (data) => {
+      this.messages.push(data.msg);
+      this.scrollMessagesList();
+    });
   }
 
 }

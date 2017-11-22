@@ -1,13 +1,14 @@
 <article>
     <ul class="messages" #messagesList>
-      <li *ngFor="let msg of messages; index as i; trackBy: trackByMessage">
+      <li *ngFor="let msg of messages">
         <figure class="box">
           <div class="img-user box y-center">
             <img src="{{msg.img}}">
           </div>
           <figcaption>
             <h4 class="pseudo">{{msg.pseudo}}</h4>
-            <div [innerHTML]="msg.txt | bbToHtml"></div>
+            <div [innerHTML]="msg.text | bbToHtml"></div>
+
             <time [attr.datetime]="msg.datetime">{{msg.date}}</time>
           </figcaption>
         </figure>
@@ -15,7 +16,7 @@
     </ul>
     <div class="editor">
       <button class="send">&gt;</button>
-      <div class="text" contenteditable="true">test</div>
+      <div class="text" #editor (keydown)="submitChat(editor,$event)" contenteditable="true"></div>
       <button class="options">+</button>
     </div>
 </article>
