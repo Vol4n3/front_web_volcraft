@@ -107,10 +107,13 @@ p {
 * {
   &:focus {
     transition: all 0.3s;
-    box-shadow: 0 0 10px 3px $primary;
+    box-shadow: 0 0 7px 3px $primary;
   }
   &.confirm:focus {
-    box-shadow: 0 0 10px 3px $secondary;
+    box-shadow: 0 0 7px 3px $secondary;
+  }
+  &.alert:focus {
+    box-shadow: 0 0 7px 3px $alert;
   }
   &:focus {
     outline: none;

@@ -1,4 +1,4 @@
-<main>
+<main (mousedown)="hideLogin($event)">
   <nav></nav>
   <article class="container">
     <header>
@@ -14,7 +14,7 @@
   <div class="third-desktop right">
     <app-chat></app-chat>
   </div>
-  <header>
+  <header #mainHeader>
     <div class="box mobile wrap-reverse container">
       <div>
         <h1>{{title}}</h1>

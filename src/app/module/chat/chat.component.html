@@ -9,7 +9,7 @@
             <h4 class="pseudo">{{msg.pseudo}}</h4>
             <div [innerHTML]="msg.text | bbToHtml"></div>
 
-            <time [attr.datetime]="msg.datetime">{{msg.date}}</time>
+            <time [attr.datetime]="msg.datetime">{{dateFormat(msg.datetime)}}</time>
           </figcaption>
         </figure>
       </li>

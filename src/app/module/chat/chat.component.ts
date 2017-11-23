@@ -1,5 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {SocketClientService} from '../../service/socket-client.service';
+import {DateService} from '../../service/date.service';
 
 declare let $: any;
 
@@ -12,15 +13,7 @@ export class ChatComponent implements OnInit {
   @ViewChild('messagesList') messagesList: ElementRef;
   @ViewChild('editor') editor: ElementRef;
 
-  public messages = [
-    {
-      pseudo: 'system',
-      text: '[h3]No message[/h3]',
-      img: 'http://www.aiphone.fr/images/mobile/icone_compte.png',
-      date: '2017',
-      datetime: '2017-12-25'
-    },
-  ];
+  public messages: any[] = [];
   private socket;
 
   constructor(private io: SocketClientService) {
@@ -39,6 +32,10 @@ export class ChatComponent implements OnInit {
     }
   }
 
+  public dateFormat(date: string): string {
+    return DateService.getFormatString(new Date(date));
+  }
+
   private scrollMessagesList() {
     setTimeout(() => {
       const list: any = this.messagesList.nativeElement;
@@ -54,10 +51,10 @@ export class ChatComponent implements OnInit {
     this.socket = this.io.getSocket();
 
     this.socket.on('chat_history', (data) => {
-      this.messages = data;
+      this.messages = data.messages;
     });
     this.socket.on('chanel_message', (data) => {
-      this.messages.push(data.msg);
+      this.messages.push(data.message);
       this.scrollMessagesList();
     });
   }

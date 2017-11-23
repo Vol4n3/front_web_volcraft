@@ -60,8 +60,9 @@
   }
   .text{
     font-size: 1.2rem;
-    padding: 0;
+    padding: 0 10px;
     border: none;
     color: inherit;
+    min-height: 20px;
   }
 }

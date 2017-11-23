@@ -47,11 +47,17 @@ export class LoginComponent implements OnInit {
 
   }
 
+  public closeForm() {
+    this.isRegister = false;
+    this.isLogin = false;
+    this.askLog = false;
+  }
+
   public submit(form: HTMLFormElement) {
     if (this.isRegister) {
       if (this.isConfirm) {
         this.register(form);
-      }else {
+      } else {
         this.toggleErrorAnimation = !this.toggleErrorAnimation;
       }
     } else {
