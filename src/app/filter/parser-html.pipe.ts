@@ -7,12 +7,11 @@ import {Pipe, PipeTransform} from '@angular/core';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 
 @Pipe({
-  name: 'bbToHtml',
+  name: 'parserHtml',
   pure: true,
 })
 
-
-export class BbToHtmlPipe implements PipeTransform {
+export class ParserHtmlPipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) {
   }
 
@@ -128,41 +127,35 @@ export class BbToHtmlPipe implements PipeTransform {
         }
       },
       {
-        regex: /\[h1](.*?)\[\/h1]/ig,
+        regex: /\*\*(.*?)\*\*/ig,
         regPlace: (str) => {
-          return '<h1>' + str[1] + '</h1>';
+          return '<b>' + str[1] + '</b>';
         }
       },
       {
-        regex: /\[h2](.*?)\[\/h2]/ig,
+        regex: /--(.*?)--/ig,
         regPlace: (str) => {
-          return '<h2>' + str[1] + '</h2>';
+          return '<span style="text-decoration: line-through;">' + str[1] + '</span>';
         }
       },
       {
-        regex: /\[h3](.*?)\[\/h3]/ig,
+        regex: /__(.*?)__/ig,
         regPlace: (str) => {
-          return '<h3>' + str[1] + '</h3>';
+          return '<span style="text-decoration: underline;">' + str[1] + '</span>';
         }
       },
       {
-        regex: /\[h4](.*?)\[\/h4]/ig,
+        regex: /\/\/(.*?)\/\//ig,
         regPlace: (str) => {
-          return '<h4>' + str[1] + '</h4>';
+          return '<i>' + str[1] + '</i>';
         }
       },
       {
-        regex: /\[h5](.*?)\[\/h5]/ig,
+        regex: /@(.*?)\s/ig,
         regPlace: (str) => {
-          return '<h5>' + str[1] + '</h5>';
+          return '<span class="user-reference">' + str[1] + '</span>';
         }
-      },
-      {
-        regex: /\[h6](.*?)\[\/h6]/ig,
-        regPlace: (str) => {
-          return '<h6>' + str[1] + '</h6>';
-        }
-      },
+      }
     ];
   }
 }

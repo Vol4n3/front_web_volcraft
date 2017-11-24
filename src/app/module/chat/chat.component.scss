@@ -10,16 +10,18 @@
   position: relative;
   figure{
     margin-left: 10px;
+    .img-user{
+      min-width: 5.3rem;
+      max-height: 4.4rem;
+      overflow: hidden;
+      margin-right: 10px;
+    }
     .img-user img{
       width: 5.3rem;
       height: auto;
       margin: 0 auto;
     }
-    .img-user{
-      max-height: 4.4rem;
-      overflow: hidden;
-      margin-right: 10px;
-    }
+
   }
   li {
     list-style: none;

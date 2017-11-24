@@ -6,8 +6,8 @@
             <img src="{{msg.img}}">
           </div>
           <figcaption>
-            <h4 class="pseudo">{{msg.pseudo}}</h4>
-            <div [innerHTML]="msg.text | bbToHtml"></div>
+            <h5 class="pseudo">{{msg.pseudo}}</h5>
+            <div [innerHTML]="msg.text | parserHtml"></div>
 
             <time [attr.datetime]="msg.datetime">{{dateFormat(msg.datetime)}}</time>
           </figcaption>
