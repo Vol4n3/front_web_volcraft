@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {SocketClientService} from '../../service/socket-client.service';
 import {DateService} from '../../service/date.service';
+import {LoginComponent} from '../login/login.component';
 
 declare let $: any;
 
@@ -15,11 +16,9 @@ export class ChatComponent implements OnInit {
 
   public messages: any[] = [];
   private socket;
-
   constructor(private io: SocketClientService) {
 
   }
-
   public submitChat(el?: HTMLElement, event?: KeyboardEvent) {
     if (event && event.keyCode === 13) {
       event.preventDefault();

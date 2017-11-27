@@ -8,7 +8,6 @@
     <label class="placeholder">
       <input name="pseudo"
              (keyup)="checkLength(login_form)"
-             [ngClass]="{'confirm' : isCorrectLength, 'alert' : !isCorrectLength }"
              type="text"
              placeholder="Pseudo"
              required

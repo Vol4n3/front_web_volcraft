@@ -9,7 +9,14 @@ export class SocketClientService {
   }
 
   init() {
-    this.socket = io('http://localhost:8088');
+    const origin: string = window.location.origin;
+    let socketUrl: string;
+    if (window.location.port) {
+      socketUrl = origin.replace(window.location.port, '8088');
+    } else {
+      socketUrl = origin + ':8088';
+    }
+    this.socket = io(socketUrl);
   }
 
   getSocket() {
