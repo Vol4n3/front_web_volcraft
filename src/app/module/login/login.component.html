@@ -8,6 +8,7 @@
     <label class="placeholder">
       <input name="pseudo"
              (keyup)="checkLength(login_form)"
+             [ngClass]="{'confirm' : isCorrectLength, 'alert' : !isCorrectLength }"
              type="text"
              placeholder="Pseudo"
              required
@@ -16,7 +17,6 @@
     </label>
     <label class="placeholder">
       <input (keyup)="confirmPassword(login_form)"
-             [ngClass]="{'confirm' : isConfirm, 'alert' : !isConfirm }"
              name="password"
              type="password"
              placeholder="Mot de passe"

@@ -1,23 +1,27 @@
-<article>
-    <ul class="messages" #messagesList>
-      <li *ngFor="let msg of messages">
-        <figure class="box">
-          <div class="img-user box y-center">
-            <img src="{{msg.img}}">
-          </div>
-          <figcaption>
-            <h5 class="pseudo">{{msg.pseudo}}</h5>
-            <div [innerHTML]="msg.text | parserHtml"></div>
+<article #chatWindow>
+  <div class="resize"></div>
+  <header (mousedown)="startMove($event)">
+    <h4>Chat</h4>
+  </header>
+  <ul class="messages" #messagesList>
+    <li *ngFor="let msg of messages">
+      <figure class="box">
+        <div class="img-user box y-center">
+          <img src="{{msg.img}}">
+        </div>
+        <figcaption>
+          <h5 class="pseudo">{{msg.pseudo}}</h5>
+          <div [innerHTML]="msg.text | parserHtml"></div>
 
-            <time [attr.datetime]="msg.datetime">{{dateFormat(msg.datetime)}}</time>
-          </figcaption>
-        </figure>
-      </li>
-    </ul>
-    <div class="editor">
-      <button class="send">&gt;</button>
-      <div class="text" #editor (keydown)="submitChat(editor,$event)" contenteditable="true"></div>
-      <button class="options">+</button>
-    </div>
+          <time [attr.datetime]="msg.datetime">{{dateFormat(msg.datetime)}}</time>
+        </figcaption>
+      </figure>
+    </li>
+  </ul>
+  <div class="editor">
+    <button class="send">&gt;</button>
+    <div class="text" #editor (keydown)="submitChat(editor,$event)" contenteditable="true"></div>
+    <button class="options">+</button>
+  </div>
 </article>
 

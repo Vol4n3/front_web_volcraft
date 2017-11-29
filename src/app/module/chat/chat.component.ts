@@ -1,7 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {SocketClientService} from '../../service/socket-client.service';
 import {DateService} from '../../service/date.service';
-import {LoginComponent} from '../login/login.component';
 
 declare let $: any;
 
@@ -13,12 +12,54 @@ declare let $: any;
 export class ChatComponent implements OnInit {
   @ViewChild('messagesList') messagesList: ElementRef;
   @ViewChild('editor') editor: ElementRef;
+  @ViewChild('chatWindow') chatWindow: ElementRef;
 
   public messages: any[] = [];
   private socket;
+
   constructor(private io: SocketClientService) {
 
   }
+
+  public startMove(event) {
+    event.preventDefault();
+    const offsetX = event.offsetX;
+    const offsetY = event.offsetY;
+    const w: number = window.innerWidth;
+    const h: number = window.innerHeight;
+    const move = (ev: MouseEvent) => {
+      const x: number = ev.clientX - offsetX;
+      const y: number = ev.clientY - offsetY;
+      this.chatWindow.nativeElement.style.left = x + 'px';
+      this.chatWindow.nativeElement.style.top = y + 'px';
+    };
+    const stopMove = () => {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', stopMove);
+      this.checkForResetChatPosition(w, h);
+    };
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', stopMove);
+  }
+
+  public checkForResetChatPosition(width: number, height: number) {
+    const rectChat: ClientRect = this.chatWindow.nativeElement.getBoundingClientRect();
+    const heightHeader: Number = $('#mainHeader').height();
+
+    if (rectChat.left < 0) {
+      this.chatWindow.nativeElement.style.left = 0 + 'px';
+    }
+    if (rectChat.top < heightHeader) {
+      this.chatWindow.nativeElement.style.top = heightHeader + 'px';
+    }
+    if (rectChat.top + rectChat.height > height) {
+      this.chatWindow.nativeElement.style.top = (height - rectChat.height) + 'px';
+    }
+    if (rectChat.left + rectChat.width > width) {
+      this.chatWindow.nativeElement.style.left = (width - rectChat.width) + 'px';
+    }
+  }
+
   public submitChat(el?: HTMLElement, event?: KeyboardEvent) {
     if (event && event.keyCode === 13) {
       event.preventDefault();
@@ -43,7 +84,7 @@ export class ChatComponent implements OnInit {
           scrollTop: list.scrollHeight - list.clientHeight
         }, 200);
       }
-    }, 100);
+    }, 200);
   }
 
   private buildMessages(message) {
@@ -78,6 +119,7 @@ export class ChatComponent implements OnInit {
     }
 
     this.messages = msgs;
+    this.scrollMessagesList();
   }
 
   ngOnInit() {
@@ -86,14 +128,11 @@ export class ChatComponent implements OnInit {
     this.socket.on('chat_history', (data) => {
       if (data.messages && data.messages.length > 0) {
         this.buildMessages(data.messages);
-        this.scrollMessagesList();
       }
     });
     this.socket.on('chanel_message', (data) => {
       const addMessage = this.messages.concat(data.message);
       this.buildMessages(addMessage);
-      this.scrollMessagesList();
     });
   }
-
 }

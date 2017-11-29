@@ -1,22 +1,51 @@
 @import "../../../assets/styles/declaration";
+
+article {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200px;
+  height: 150px;
+}
+.resize{
+  position: absolute;
+  border: 2px red solid;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  box-sizing: padding-box;
+}
+header {
+  background-color: $black;
+  padding: 5px 20px;
+  cursor: move;
+  user-select: none;
+  h4 {
+    font-family: 'Gochi Hand', sans-serif;
+    color: $light;
+    margin: 0;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+}
+
 .messages {
   overflow-y: auto;
-  height:380px;
-  max-height: 380px;
+  max-height: calc(100% - 135px);
   background-color: $transparent-dark;
   color: $light;
   padding: 10px;
   margin: 0 0 10px;
   position: relative;
-  figure{
+  figure {
     margin-left: 10px;
-    .img-user{
+    .img-user {
       min-width: 5.3rem;
       max-height: 4.4rem;
       overflow: hidden;
       margin-right: 10px;
     }
-    .img-user img{
+    .img-user img {
       width: 5.3rem;
       height: auto;
       margin: 0 auto;
@@ -41,7 +70,7 @@
   color: $light;
   border: 1px $neutral solid;
   background-color: $transparent-dark;
-  .send,.options{
+  .send, .options {
     position: absolute;
     top: 20px;
     font-size: 1.2rem;
@@ -53,14 +82,14 @@
     color: inherit;
     cursor: pointer;
   }
-  .send{
+  .send {
     left: 10px;
   }
   .options {
     right: 10px;
 
   }
-  .text{
+  .text {
     font-size: 1.2rem;
     padding: 0 10px;
     border: none;

@@ -7,8 +7,13 @@
   src: local('Source Code Pro'), local('SourceCodePro-Regular'), url(./assets/font/sourcecodepro.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
 }
-
-/* latin */
+@font-face {
+  font-family: 'Gochi Hand';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Gochi Hand'), local('GochiHand-Regular'), url(./assets/font/gochihand.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
@@ -57,13 +62,13 @@ html, body {
 }
 
 body {
-
+  position: relative;
   background: $light;
   background-size: cover;
 }
 
 .container {
-  max-width: 1300px;
+  max-width: 1600px;
   margin-left: auto;
   margin-right: auto;
   padding: 10px;
