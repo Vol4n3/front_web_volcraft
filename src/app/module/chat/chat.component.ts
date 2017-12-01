@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {SocketClientService} from '../../service/socket-client.service';
 import {DateService} from '../../service/date.service';
 
@@ -9,7 +9,7 @@ declare let $: any;
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewInit {
   @ViewChild('messagesList') messagesList: ElementRef;
   @ViewChild('editor') editor: ElementRef;
   @ViewChild('chatWindow') chatWindow: ElementRef;
@@ -19,6 +19,28 @@ export class ChatComponent implements OnInit {
 
   constructor(private io: SocketClientService) {
 
+  }
+
+  public startResize(event) {
+    event.preventDefault();
+    const w: number = window.innerWidth;
+    const h: number = window.innerHeight;
+    const offsetX = event.offsetX;
+    const offsetY = event.offsetY;
+    const rO: ClientRect = this.chatWindow.nativeElement.getBoundingClientRect();
+    const move = (ev: MouseEvent) => {
+      const newWidth: number = ev.clientX - rO.left;
+      const newHeight: number = ev.clientY - rO.top;
+      this.chatWindow.nativeElement.style.width = newWidth + 'px';
+      this.chatWindow.nativeElement.style.height = newHeight + 'px';
+    };
+    const stopMove = () => {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', stopMove);
+      this.checkForResetChatPosition(w, h);
+    };
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', stopMove);
   }
 
   public startMove(event) {
@@ -57,6 +79,23 @@ export class ChatComponent implements OnInit {
     }
     if (rectChat.left + rectChat.width > width) {
       this.chatWindow.nativeElement.style.left = (width - rectChat.width) + 'px';
+    }
+    this.saveWindowPosition();
+  }
+
+  private saveWindowPosition() {
+    const rectChat: ClientRect = this.chatWindow.nativeElement.getBoundingClientRect();
+    localStorage.setItem('chat_pos', JSON.stringify(rectChat));
+  }
+
+  private restoreWindowPosition() {
+    const rectChat: ClientRect = JSON.parse(localStorage.getItem('chat_pos'));
+    if (rectChat) {
+      this.chatWindow.nativeElement.style.top = rectChat.top + 'px';
+      this.chatWindow.nativeElement.style.left = rectChat.left + 'px';
+      this.chatWindow.nativeElement.style.height = rectChat.height + 'px';
+      this.chatWindow.nativeElement.style.width = rectChat.width + 'px';
+      console.log(rectChat);
     }
   }
 
@@ -134,5 +173,10 @@ export class ChatComponent implements OnInit {
       const addMessage = this.messages.concat(data.message);
       this.buildMessages(addMessage);
     });
+    this.restoreWindowPosition();
+  }
+
+  ngAfterViewInit() {
+
   }
 }

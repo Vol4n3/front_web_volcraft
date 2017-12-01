@@ -1,5 +1,4 @@
 <article #chatWindow>
-  <div class="resize"></div>
   <header (mousedown)="startMove($event)">
     <h4>Chat</h4>
   </header>
@@ -22,6 +21,9 @@
     <button class="send">&gt;</button>
     <div class="text" #editor (keydown)="submitChat(editor,$event)" contenteditable="true"></div>
     <button class="options">+</button>
+  </div>
+  <div class="resize" (mousedown)="startResize($event)">
+
   </div>
 </article>
 
