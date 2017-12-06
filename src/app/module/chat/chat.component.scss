@@ -6,7 +6,10 @@ article {
   left: 300px;
   width: 200px;
   height: 200px;
+  transition: all 0.1s;
 }
+
+
 .resize{
   position: absolute;
   background-color: $neutral;
@@ -18,15 +21,17 @@ article {
 }
 header {
   background-color: $black;
-  padding: 5px 20px;
-  cursor: move;
+  padding: 0 20px;
   user-select: none;
   h4 {
+    cursor: move;
     font-family: 'Gochi Hand', sans-serif;
     color: $alert;
     margin: 0;
     letter-spacing: 3px;
     text-transform: uppercase;
+    padding: 5px 25px;
+    vertical-align: middle;
   }
 }
 
@@ -35,8 +40,7 @@ header {
   max-height: calc(100% - 135px);
   background-color: $transparent-dark;
   color: $light;
-  padding: 10px;
-  padding-bottom: 70px;
+  padding: 10px 10px 70px 10px;
   margin: 0 0 10px;
   position: relative;
   figure {
@@ -73,7 +77,7 @@ header {
   padding: 20px 3rem 20px 40px;
   color: $light;
   border: 1px $neutral solid;
-  background-color: $transparent-dark;
+  background-color: $black;
   box-sizing: border-box;
   .send, .options {
     position: absolute;

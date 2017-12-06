@@ -2,7 +2,8 @@
   <div class="box spaced" [ngClass]="{'auto':!logged}">
     <button *ngIf="!logged"  class="btn" (click)="toggleFormLogin()" type="button">Connection</button>
     <button *ngIf="!logged" class="btn btn-primary" (click)="toggleFormRegister()" type="button">Enregistre toi!</button>
-    <button *ngIf="logged" class="btn right" (click)="logout()">Bye !</button>
+    <a *ngIf="logged" class="btn" routerLink="/profile" routerLinkActive="active">Mon profil</a>
+    <button *ngIf="logged" class="btn" (click)="logout()">Bye !</button>
   </div>
   <form *ngIf="!logged && askLog" #login_form (submit)="submit(login_form)" class="box margin-y down auto spaced" [@slide]>
     <label class="placeholder">
@@ -12,7 +13,8 @@
              type="text"
              placeholder="Pseudo"
              required
-             minlength="3">
+             minlength="2"
+              maxlength="16">
       <span>Pseudo</span>
     </label>
     <label class="placeholder">

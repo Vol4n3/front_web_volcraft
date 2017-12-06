@@ -1,0 +1,21 @@
+@import "../../../../assets/styles/declaration";
+
+
+figure {
+  margin-left: 10px;
+  .img-user {
+    min-width: 6.3rem;
+    max-height: 5.4rem;
+    overflow: hidden;
+    margin-right: 10px;
+  }
+  .img-user img {
+    width: 6.3rem;
+    height: auto;
+    margin: 0 auto;
+  }
+
+}
+.pseudo {
+  color: $neutral;
+}

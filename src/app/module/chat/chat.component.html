@@ -1,28 +1,31 @@
 <article #chatWindow>
-  <header (mousedown)="startMove($event)">
-    <h4>Chat</h4>
+  <header class="box y-center">
+    <h4 (mousedown)="startMove($event)">Chat</h4>
+    <button class="right btn btn-minus" (click)="minimize()" *ngIf="!isMinimize"></button>
+    <button class="right btn btn-more" (click)="maximize()" *ngIf="isMinimize"></button>
   </header>
-  <ul class="messages" #messagesList>
+  <ul class="messages" #messagesList *ngIf="!isMinimize">
     <li *ngFor="let msg of messages">
       <figure class="box">
         <div class="img-user box y-center">
           <img src="{{msg.img}}">
         </div>
         <figcaption>
-          <h5 class="pseudo">{{msg.pseudo}}</h5>
+          <h5 class="pseudo" (mouseenter)="hover()" (mouseleave)="hideHover()">{{msg.pseudo}}</h5>
+
           <div [innerHTML]="msg.text | parserHtml"></div>
 
-          <time [attr.datetime]="msg.datetime">{{dateFormat(msg.datetime)}}</time>
+          <time [attr.datetime]="msg.datetime">{{dateFormat(msg.datetime)}} il y'a {{timeAgo(msg.datetime)}}</time>
         </figcaption>
       </figure>
     </li>
   </ul>
-  <div class="editor">
+  <div class="editor" *ngIf="!isMinimize">
     <button class="send">&gt;</button>
     <div class="text" #editor (keydown)="submitChat(editor,$event)" contenteditable="true"></div>
     <button class="options">+</button>
   </div>
-  <div class="resize" (mousedown)="startResize($event)">
+  <div class="resize" (mousedown)="startResize($event)" *ngIf="!isMinimize">
 
   </div>
 </article>

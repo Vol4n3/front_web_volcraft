@@ -7,6 +7,7 @@
   src: local('Source Code Pro'), local('SourceCodePro-Regular'), url(./assets/font/sourcecodepro.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
 }
+
 @font-face {
   font-family: 'Gochi Hand';
   font-style: normal;
@@ -14,6 +15,7 @@
   src: local('Gochi Hand'), local('GochiHand-Regular'), url(./assets/font/gochihand.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
 }
+
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
@@ -68,7 +70,7 @@ body {
 }
 
 .container {
-  max-width: 1600px;
+  max-width: 1440px;
   margin-left: auto;
   margin-right: auto;
   padding: 10px;
@@ -116,11 +118,14 @@ p {
     transition: all 0.3s;
     box-shadow: 0 0 7px 3px $primary;
   }
-  &.confirm:focus {
+  &.confirm:focus, &.btn-success:focus {
     box-shadow: 0 0 7px 3px $secondary;
   }
-  &.alert:focus {
+  &.alert:focus, &.active:focus {
     box-shadow: 0 0 7px 3px $alert;
+  }
+  &.btn-error:focus {
+    box-shadow: 0 0 7px 3px $danger;
   }
   &:focus {
     outline: none;
@@ -130,7 +135,7 @@ p {
   }
 }
 
-input {
+input, textarea {
   width: 100%;
   padding: 10px .75rem;
   font-size: 1rem;
@@ -138,6 +143,11 @@ input {
   border: 1px solid $neutral;
   box-sizing: border-box;
   display: inline-block;
+  color: $neutral;
+}
+
+textarea {
+  resize: vertical;
 }
 
 a, a:hover, a:focus, a:active, a:visited {
@@ -153,12 +163,18 @@ a {
   &:visited {
     color: $primary-light;
   }
+  &.btn {
+    color: #8d8d98;
+  }
+  &.active {
+    color: $alert;
+  }
 }
 
 .placeholder {
   position: relative;
   display: inline-block;
-  input {
+  input, textarea {
     padding: 18px .75rem 2px .75rem;
   }
   span {
@@ -170,10 +186,10 @@ a {
     left: 40px;
     color: $neutral;
   }
-  input:focus::placeholder {
+  input:focus::placeholder, textarea:focus::placeholder {
     opacity: 0;
   }
-  input:focus + span {
+  input:focus + span, textarea:focus + span {
     opacity: 1;
     left: 10px;
 
@@ -216,14 +232,40 @@ a {
     color: $primary;
     border: 1px solid $primary;
   }
+  &.btn-success {
+    color: $secondary;
+    border: 1px solid $secondary;
+  }
   &.btn-alert {
     color: $alert;
     border: 1px solid $alert;
+  }
+  &.btn-error {
+    color: $danger;
+    border: 1px solid $danger;
   }
   &:hover {
     color: $light;
     border: 1px solid $light;
   }
+  &.active {
+    color: $alert;
+    border: 1px solid $alert;
+  }
+  &.btn-minus {
+    padding: 0 0.7rem;
+
+    &::before {
+      content: '-';
+    }
+  }
+  &.btn-more{
+    padding: 0 0.7rem;
+    &::before{
+      content: '+';
+    }
+  }
+
 }
 
 .box {
@@ -334,7 +376,7 @@ a {
 
 ::-webkit-scrollbar {
   width: 10px;
-  height: 20px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-button {

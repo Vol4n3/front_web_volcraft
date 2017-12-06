@@ -37,31 +37,31 @@ export class ParserHtmlPipe implements PipeTransform {
     return [
       {
         regex: /</ig,
-        regPlace: (str) => {
+        regPlace: () => {
           return '&lt;';
         }
       },
       {
         regex: />/ig,
-        regPlace: (str) => {
+        regPlace: () => {
           return '&gt;';
         }
       },
       {
         regex: /"gi/ig,
-        regPlace: (str) => {
+        regPlace: () => {
           return '&quote;';
         }
       },
       {
         regex: /'/ig,
-        regPlace: (str) => {
+        regPlace: () => {
           return '&apos;';
         }
       },
       {
         regex: /\[\/?br\/?]/ig,
-        regPlace: (str) => {
+        regPlace: () => {
           return '<br>';
         }
       },

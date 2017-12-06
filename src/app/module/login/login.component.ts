@@ -89,7 +89,7 @@ export class LoginComponent implements OnInit {
   }
 
   public checkLength(form: HTMLFormElement) {
-    this.isCorrectLength = form['pseudo'].value.length > 3;
+    this.isCorrectLength = form['pseudo'].value.length >= 2;
   }
 
   public logout(): void {

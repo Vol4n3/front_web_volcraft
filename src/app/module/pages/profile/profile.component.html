@@ -1,0 +1,39 @@
+<article class="container bg-dark box center wrap">
+  <figure class="box">
+    <div class="img-user box y-center">
+      <img [src]="formProfile.image.value">
+    </div>
+    <figcaption>
+      <h5 class="pseudo">{{formProfile.pseudo.value}}</h5>
+    </figcaption>
+  </figure>
+  <form #formProfile (submit)="submit(formProfile)" class="half-desktop full">
+    <div class="box down spaced">
+
+      <label class="placeholder">
+        <input type="text" name="pseudo" minlength="2" maxlength="16" placeholder="pseudo d'affichage">
+        <span>pseudo d'affichage</span>
+      </label>
+      <label class="placeholder">
+        <input type="url" name="image" maxlength="2048" placeholder="Image d'avatar">
+        <span>Image d'avatar</span>
+      </label>
+      <label class="placeholder">
+        <input type="date" name="birthday" placeholder="Date d'aniversaire">
+        <span>Date d'aniversaire</span>
+      </label>
+      <label class="placeholder">
+        <input type="text" maxlength="255" name="motd" placeholder="Message du jour">
+        <span>Message du jour</span>
+      </label>
+      <label class="placeholder">
+        <textarea maxlength="2048" name="description" placeholder="Description"></textarea>
+        <span>description</span>
+      </label>
+      <div class="box right spaced">
+        <a class="btn" routerLink="/home">Annuler</a>
+        <input type="submit" name="validation" class="btn btn-primary" value="Mettre à jour">
+      </div>
+    </div>
+  </form>
+</article>
