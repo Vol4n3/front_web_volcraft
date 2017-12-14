@@ -1,7 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgModule} from '@angular/core';
-
 import {AppComponent} from './app.component';
 import {ChatComponent} from './module/chat/chat.component';
 import {LoginComponent} from './module/login/login.component';
@@ -11,6 +10,7 @@ import {HomeComponent} from './module/pages/home/home.component';
 import {RouterModule, Routes} from '@angular/router';
 import {NotFoundComponent} from './module/pages/not-found/not-found.component';
 import {HoverPreviewComponent} from './module/hover-preview/hover-preview.component';
+import {HttpClientModule} from '@angular/common/http';
 
 const appRoutes: Routes = [
   {
@@ -38,13 +38,12 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  ngOnInit() {
 
-  }
 }

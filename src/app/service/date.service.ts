@@ -19,6 +19,13 @@ export class DateService {
     return date.toLocaleDateString('fr-FR', options);
   }
 
+  static getYearString(date: Date): string {
+    const now: number = new Date().getTime();
+    const time: number = date.getTime();
+    const diffTime = now - time;
+    return Math.ceil((diffTime / (1000 * 3600 * 24 * 365)) - 1).toString() + ' ans';
+  }
+
   static getTimeAgo(date: Date): string {
     const now: number = new Date().getTime();
     const time: number = date.getTime();

@@ -9,8 +9,7 @@ article {
   transition: all 0.1s;
 }
 
-
-.resize{
+.resize {
   position: absolute;
   background-color: $neutral;
   width: 12px;
@@ -19,12 +18,13 @@ article {
   right: 0;
   cursor: nw-resize;
 }
+
 header {
   background-color: $black;
   padding: 0 20px;
   user-select: none;
+  cursor: move;
   h4 {
-    cursor: move;
     font-family: 'Gochi Hand', sans-serif;
     color: $alert;
     margin: 0;
@@ -79,6 +79,7 @@ header {
   border: 1px $neutral solid;
   background-color: $black;
   box-sizing: border-box;
+
   .send, .options {
     position: absolute;
     top: 20px;
@@ -105,4 +106,10 @@ header {
     color: inherit;
     min-height: 20px;
   }
+}
+.hoverPreview{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
 }

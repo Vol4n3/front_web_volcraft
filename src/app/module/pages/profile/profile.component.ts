@@ -24,7 +24,7 @@ export class ProfileComponent implements OnInit {
     this.isSubmited = true;
     const birthday = form['birthday'].value;
     XhrService.send({
-      url: 'http://localhost:8088/api/profile',
+      url: '/api/profile',
       method: 'PUT',
       query: {token: localStorage.getItem('token')},
       body: {
@@ -64,7 +64,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     XhrService.send({
-      url: 'http://localhost:8088/api/profile',
+      url: '/api/profile',
       method: 'GET',
       query: {token: localStorage.getItem('token')},
       success: (load: any) => {

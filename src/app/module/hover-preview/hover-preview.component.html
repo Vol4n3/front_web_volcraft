@@ -1,3 +1,13 @@
 <div *ngIf="show">
-
+  <figure class="box">
+    <div class="img-user box y-center">
+      <img src="{{image}}">
+    </div>
+    <figcaption>
+      <h5 class="pseudo">{{pseudo}} : {{motd}}</h5>
+      <p *ngIf="birthday">age: <span>{{getAge()}}</span></p>
+      <p>{{description}}</p>
+      <p></p>
+    </figcaption>
+  </figure>
 </div>

@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {SocketClientService} from '../../service/socket-client.service';
 import {DateService} from '../../service/date.service';
-import {HoverPreviewComponent} from "../hover-preview/hover-preview.component";
+import {HoverPreviewComponent} from '../hover-preview/hover-preview.component';
 
 declare let $: any;
 
@@ -14,24 +14,25 @@ export class ChatComponent implements OnInit, AfterViewInit {
   @ViewChild('messagesList') messagesList: ElementRef;
   @ViewChild('editor') editor: ElementRef;
   @ViewChild('chatWindow') chatWindow: ElementRef;
-  @ViewChild('hoverPreview') preview: HoverPreviewComponent;
+  @ViewChild('hoverPreview') hoverProfile: ElementRef;
 
+  public showHoverProfile: boolean;
   public messages: any[] = [];
   public isMinimize: boolean;
+  public profileHoverId: String;
   private socket;
 
   constructor(private io: SocketClientService) {
 
   }
 
-  public hover() {
-    console.log('enter');
-    this.preview.show = true;
+  public hover(id: string): void {
+    this.profileHoverId = id;
+    this.showHoverProfile = true;
   }
 
-  public hideHover() {
-    console.log('leave');
-    this.preview.show = false;
+  public hideHover(): void {
+    this.showHoverProfile = false;
   }
 
   public startResize(event) {
@@ -136,16 +137,19 @@ export class ChatComponent implements OnInit, AfterViewInit {
     localStorage.setItem('chat_minimize', '1');
     this.chatWindow.nativeElement.style.top = window.innerHeight - 38 + 'px';
     this.chatWindow.nativeElement.style.left = '0px';
+    this.chatWindow.nativeElement.style.position = 'fixed';
   }
 
   public maximize() {
     this.isMinimize = false;
+    this.chatWindow.nativeElement.style.position = 'absolute';
     localStorage.setItem('chat_minimize', '0');
     this.restoreWindowPosition();
+    this.scrollBottom();
   }
 
-  public submitChat(el?: HTMLElement, event?: KeyboardEvent) {
-    if (event && event.keyCode === 13) {
+  public submitChat(el: HTMLElement, event: any) {
+    if (event && event.keyCode === 13 || event.type === 'click') {
       event.preventDefault();
       event.stopPropagation();
       this.socket.emit('chat_message', {
@@ -156,21 +160,30 @@ export class ChatComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public dateFormat(date: string): string {
-    return DateService.getFormatString(new Date(date));
-  }
-
   public timeAgo(date: string): string {
     return DateService.getTimeAgo(new Date(date));
   }
 
-  private scrollMessagesList() {
+  private scrollBottom() {
     setTimeout(() => {
-      const list: any = this.messagesList.nativeElement;
-      if (list.scrollTop >= list.scrollHeight - list.clientHeight * 2) {
+      if (this.messagesList) {
+        const list: any = this.messagesList.nativeElement;
         $(list).animate({
           scrollTop: list.scrollHeight - list.clientHeight
         }, 200);
+      }
+    }, 200);
+  }
+
+  private scrollMessagesList() {
+    setTimeout(() => {
+      if (this.messagesList) {
+        const list: any = this.messagesList.nativeElement;
+        if (list.scrollTop >= list.scrollHeight - list.clientHeight * 2) {
+          $(list).animate({
+            scrollTop: list.scrollHeight - list.clientHeight
+          }, 200);
+        }
       }
     }, 200);
   }
@@ -210,6 +223,15 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.scrollMessagesList();
   }
 
+  public moveHover(ev: any) {
+    if (this.hoverProfile) {
+      const rect = this.hoverProfile.nativeElement.getBoundingClientRect();
+      console.log(ev);
+      this.hoverProfile.nativeElement.style.top = ev.clientY - rect.height - 10 + 'px';
+      this.hoverProfile.nativeElement.style.left = ev.clientX - rect.width / 2 + 'px';
+    }
+  }
+
   ngOnInit() {
     this.socket = this.io.getSocket();
 
@@ -223,7 +245,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
       this.buildMessages(addMessage);
     });
     this.restoreWindowPosition();
-
+    this.scrollBottom();
     window.addEventListener('resize', () => {
       this.checkForResetChatPosition(window.innerWidth, window.innerHeight);
     });
