@@ -21,16 +21,26 @@ article {
 
 header {
   background-color: $black;
-  padding: 0 20px;
+  padding: 5px 20px;
   user-select: none;
-  cursor: move;
+
+  position: relative;
+  .moving {
+    cursor: move;
+    padding: 0 20px;
+  }
   h4 {
     font-family: 'Gochi Hand', sans-serif;
     color: $alert;
-    margin: 0;
+    margin: 0 10px;
     letter-spacing: 3px;
     text-transform: uppercase;
-    padding: 5px 25px;
+    padding: 0;
+    vertical-align: middle;
+  }
+  h5 {
+    color: $secondary;
+    margin: 0 10px;
     vertical-align: middle;
   }
 }
@@ -107,7 +117,8 @@ header {
     min-height: 20px;
   }
 }
-.hoverPreview{
+
+.hoverPreview {
   position: fixed;
   top: 0;
   left: 0;

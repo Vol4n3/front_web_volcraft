@@ -16,7 +16,6 @@ export class SocketClientService {
     } else {
       socketUrl = origin + ':8088';
     }
-    console.log(socketUrl);
     this.socket = io(socketUrl);
   }
 

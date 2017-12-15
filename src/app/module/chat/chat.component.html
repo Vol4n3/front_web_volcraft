@@ -1,8 +1,11 @@
-<article #chatWindow >
-  <header class="box y-center" (mousedown)="startMove($event)">
-    <h4 >Chat</h4>
-    <button class="right btn btn-minus" (click)="minimize()" *ngIf="!isMinimize"></button>
-    <button class="right btn btn-more" (click)="maximize()" *ngIf="isMinimize"></button>
+<article #chatWindow>
+  <header class="box y-center">
+    <div class="box y-center center moving" (mousedown)="startMove($event)">
+      <h4>Chat </h4>
+      <h5>{{connected}} <span *ngIf="!isMinimize">en ligne</span></h5>
+    </div>
+    <button class="btn btn-minus right" (click)="minimize()" *ngIf="!isMinimize"></button>
+    <button class="btn btn-more right" (click)="maximize()" *ngIf="isMinimize"></button>
   </header>
   <ul class="messages" #messagesList *ngIf="!isMinimize" (mousemove)="moveHover($event)">
     <li *ngFor="let msg of messages">
@@ -29,7 +32,7 @@
 
   </div>
   <div #hoverPreview class="hoverPreview">
-    <app-hover-preview  [show]="showHoverProfile" [profileId]="profileHoverId"></app-hover-preview>
+    <app-hover-preview [show]="showHoverProfile" [profileId]="profileHoverId"></app-hover-preview>
   </div>
 </article>
 

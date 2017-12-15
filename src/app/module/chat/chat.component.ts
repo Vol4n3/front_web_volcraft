@@ -1,7 +1,6 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {SocketClientService} from '../../service/socket-client.service';
 import {DateService} from '../../service/date.service';
-import {HoverPreviewComponent} from '../hover-preview/hover-preview.component';
 
 declare let $: any;
 
@@ -10,7 +9,7 @@ declare let $: any;
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit, AfterViewInit {
+export class ChatComponent implements OnInit {
   @ViewChild('messagesList') messagesList: ElementRef;
   @ViewChild('editor') editor: ElementRef;
   @ViewChild('chatWindow') chatWindow: ElementRef;
@@ -20,10 +19,10 @@ export class ChatComponent implements OnInit, AfterViewInit {
   public messages: any[] = [];
   public isMinimize: boolean;
   public profileHoverId: String;
+  public connected = 0;
   private socket;
 
   constructor(private io: SocketClientService) {
-
   }
 
   public hover(id: string): void {
@@ -50,10 +49,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
       const stopMove = () => {
         window.removeEventListener('mousemove', move);
         window.removeEventListener('mouseup', stopMove);
+        window.removeEventListener('mouseleave', stopMove);
         this.checkForResetChatPosition(w, h);
       };
       window.addEventListener('mousemove', move);
       window.addEventListener('mouseup', stopMove);
+      window.addEventListener('mouseleave', stopMove);
     }
   }
 
@@ -73,10 +74,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
       const stopMove = () => {
         window.removeEventListener('mousemove', move);
         window.removeEventListener('mouseup', stopMove);
+        window.removeEventListener('mouseleave', stopMove);
         this.checkForResetChatPosition(w, h);
       };
       window.addEventListener('mousemove', move);
       window.addEventListener('mouseup', stopMove);
+      window.addEventListener('mouseleave', stopMove);
     }
   }
 
@@ -226,7 +229,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
   public moveHover(ev: any) {
     if (this.hoverProfile) {
       const rect = this.hoverProfile.nativeElement.getBoundingClientRect();
-      console.log(ev);
       this.hoverProfile.nativeElement.style.top = ev.clientY - rect.height - 10 + 'px';
       this.hoverProfile.nativeElement.style.left = ev.clientX - rect.width / 2 + 'px';
     }
@@ -234,7 +236,24 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.socket = this.io.getSocket();
-
+    this.socket.on('sys_chat', (data) => {
+      if (data.type === "error") {
+        this.messages.push({
+          profile: "",
+          pseudo: "system",
+          text: "Tu dois te connecter pour participer au chat",
+          datetime: data.date,
+          img: "https://steamuserimages-a.akamaihd.net/ugc/577831783504492376/3DCBE26B735F00BB85DADB1271A57D2267600453/?interpolation=lanczos-none&output-format=jpeg&output-quality=95&fit=inside%7C637%3A358&composite-to=*,*%7C637%3A358&background-color=black"
+        });
+      }
+    });
+    this.socket.on('connected', (data) => {
+      if (data) {
+        this.connected = data.length;
+      } else {
+        this.connected = 0;
+      }
+    });
     this.socket.on('chat_history', (data) => {
       if (data.messages && data.messages.length > 0) {
         this.buildMessages(data.messages);
@@ -249,9 +268,5 @@ export class ChatComponent implements OnInit, AfterViewInit {
     window.addEventListener('resize', () => {
       this.checkForResetChatPosition(window.innerWidth, window.innerHeight);
     });
-  }
-
-  ngAfterViewInit() {
-
   }
 }
